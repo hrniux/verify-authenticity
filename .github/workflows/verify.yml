@@ -1,0 +1,43 @@
+name: Verify demonstration
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check shell regressions
+        run: |
+          bash -n scripts/verify.sh scripts/show-operation-log.sh
+          python3 -B -m unittest discover -s tests -v
+      - name: Build and verify all six historical rounds
+        run: bash scripts/verify.sh
+      - name: Verify preserved screenshot hashes
+        working-directory: evidence/screenshots
+        run: sha256sum -c SHA256SUMS.txt
+      - name: Generate machine-readable verification report
+        if: always()
+        run: python3 -B scripts/verification_report.py --output verification-report.json
+      - name: Upload verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-report
+          path: verification-report.json
+          if-no-files-found: error
