@@ -23,7 +23,7 @@
 
 六轮操作将姓名反复对调，直接证明两个位置并不互相校验。Git 提交作者来自创建提交时的身份字段；源码“创建人”来自 `AuthenticityDemo.java` 中可编辑的普通文字。
 
-可直接在线查看两次提交：[`416966f…`（张三2026）](https://github.com/opanai404/verify-authenticity/commit/416966f10555d78847e15616fb017095625b0127)和 [`c3374b0…`（李四9527）](https://github.com/opanai404/verify-authenticity/commit/c3374b0cc26e00213c3d4f92017dc2b7a8257d8e)。
+可直接在线查看两次提交：[`416966f…`（张三2026）](https://github.com/hrniux/verify-authenticity/commit/416966f10555d78847e15616fb017095625b0127)和 [`c3374b0…`（李四9527）](https://github.com/hrniux/verify-authenticity/commit/c3374b0cc26e00213c3d4f92017dc2b7a8257d8e)。
 
 这两个姓名都是虚构的演示名称，邮箱使用保留的 `.invalid` 域名，不冒充真实账号。
 
