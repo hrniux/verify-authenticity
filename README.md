@@ -50,7 +50,7 @@ git log -p -- src/main/java/com/example/verify/AuthenticityDemo.java
 
 `git cat-file -p HEAD` 直接读取 Git 提交对象，其中能看到 `author` 和 `committer` 原始字段；Java 程序同时打印源码中手写的“创建人”。
 
-自动核验以表中六个完整历史 SHA 为准；后续维护提交的作者不会改变六轮实验结果。Java 程序仍显示运行时的当前 `HEAD`。CI 使用完整 Git 历史、JDK 21 和 Maven，并校验已保存截图的哈希。
+自动核验以表中六个完整历史 SHA 为准；后续维护提交的作者不会改变六轮实验结果。两个 shell 脚本与 JSON 报告都禁用本地 Git replacement refs，按原始对象读取历史；脚本也将此设置传给 Java 子进程，不会删除或修改已有替换引用。操作日志的六轮明细显示完整 SHA。Java 程序仍显示运行时的当前 `HEAD`。CI 使用完整 Git 历史、JDK 21 和 Maven，并校验已保存截图的哈希。
 
 脚本的终端与维护提交回归测试只需 Python 3 和 Git，不执行 Maven 构建：
 

@@ -4,6 +4,9 @@ set -euo pipefail
 repo_dir=$(cd "$(dirname "$0")/.." && pwd)
 cd "$repo_dir"
 
+# Preserve original object reads in the Java subprocess as well as this shell.
+export GIT_NO_REPLACE_OBJECTS=1
+
 mvn -q clean package
 program_output=$(java -jar target/verify-authenticity-1.0.0.jar)
 printf '%s\n' "$program_output"
@@ -20,8 +23,8 @@ verify_round() {
     local actual_author
     local actual_creator
 
-    actual_author=$(git show -s --format='%an <%ae>' "$commit_ref")
-    actual_creator=$(git show "$commit_ref":src/main/java/com/example/verify/AuthenticityDemo.java \
+    actual_author=$(git --no-replace-objects show -s --format='%an <%ae>' "$commit_ref")
+    actual_creator=$(git --no-replace-objects show "$commit_ref":src/main/java/com/example/verify/AuthenticityDemo.java \
         | sed -n 's/.*创建人：\([^<]*\)<.*/\1/p')
     if [[ "$actual_author" != "$expected_author <$expected_email>" || "$actual_creator" != "$expected_creator" ]]; then
         printf '历史提交核验失败: %s\n' "$commit_ref" >&2
