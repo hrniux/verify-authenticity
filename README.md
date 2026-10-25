@@ -50,6 +50,14 @@ git log -p -- src/main/java/com/example/verify/AuthenticityDemo.java
 
 `git cat-file -p HEAD` 直接读取 Git 提交对象，其中能看到 `author` 和 `committer` 原始字段；Java 程序同时打印源码中手写的“创建人”。
 
+自动核验以表中六个完整历史 SHA 为准；后续维护提交的作者不会改变六轮实验结果。Java 程序仍显示运行时的当前 `HEAD`。CI 使用完整 Git 历史、JDK 21 和 Maven，并校验已保存截图的哈希。
+
+脚本的终端与维护提交回归测试只需 Python 3 和 Git，不执行 Maven 构建：
+
+```bash
+python3 -B -m unittest discover -s tests -v
+```
+
 ## 给非技术人员的简要结论
 
 截图中出现一个姓名，只能证明截图在那个位置显示了这段文字。若要进一步判断真实操作者，至少还应核对原始仓库、完整提交 SHA、提交对象、签名状态、账号邮箱关联、组织审计日志、服务器访问记录及证据保全过程。详见 [EVIDENCE.md](EVIDENCE.md)。

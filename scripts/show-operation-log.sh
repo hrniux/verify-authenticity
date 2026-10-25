@@ -4,7 +4,9 @@ set -euo pipefail
 repo_dir=$(cd "$(dirname "$0")/.." && pwd)
 cd "$repo_dir"
 
-clear
+if [[ -t 1 && -n "${TERM:-}" && "${TERM:-}" != dumb ]]; then
+    clear || true
+fi
 printf 'VERIFY-AUTHENTICITY 真实 Git 操作日志\n'
 printf '仓库: https://github.com/opanai404/verify-authenticity\n'
 printf '生成时间: %s\n\n' "$(date '+%Y-%m-%d %H:%M:%S %z')"
